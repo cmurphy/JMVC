@@ -1,0 +1,761 @@
+JMVC_8_4 -> JMVC_8_5
+Date            : Mar. 26, 2011
+Authors         : Qualcomm, Xidian University, Nokia, USTC, ST
+Contribution    : Software improvements and bug fixes
+Changes:
+-Changed the configuration item for number reference frames and made it counts temporal references only
+-Fixed the syntax elements for view scalability information SEI message
+-Fixed the problem of encoding more than 300 frames in HD resolution. 
+
+JMVC_8_3_1 -> JMVC_8_4
+Date            : Mar. 23, 2011
+Authors         : MERL, Panasonic, Samsung, Fujitsu
+Contribution    : Encoder and decoder improvements and bug fixes
+Changes:
+
+[Encoder]
+- Print correct POC numbers. (MERL)
+- Fix crash on Linux 64 system. (MERL)
+- Fix sliding window operation under interlace mode. (MERL)
+- Fix bug with MbDataCtrl behavior under interlace mode. (Panasonic, MERL)
+- Correct where to inspect if LIST_0 equivalent to LIST_1. (MERL)
+- Support frame rate greater than 50 up to 120. Safe check on frame rate parameter. (MERL)
+- Allow usage of "IntraPeriod" parameter in case of "GOPSize" equal 12 or 15. (Samsung)
+
+[Decoder]
+- Decode bitstream with unknown NAL units being skipped. (MERL)
+- Decode slice_type greater than 4. (Fujitsu, MERL)
+
+[Encoder and Decoder]
+- Fix compiling issues with newer gcc version. (MERL)
+- Update software Manual editorial changes. E.g. cvs command line example, cfg example. (MERL)
+
+JMVC_8_3 -> JMVC_8_3_1
+Date            : Nov. 03, 2010
+Authors         : Qualcomm
+Contribution    : Bug fixes
+Changes:
+- Bug fix for the DPB management when the level constrain does not apply
+
+JMVC_8_2 -> JMVC_8_3
+Date            : June 18, 2010
+Authors         : Technicolor, Qualcomm
+Contribution    : Bug fixes
+
+JMVC_8_1 -> JMVC_8_2
+Date            : May 27, 2010
+Authors         : Panasonic, Qualcomm
+Contribution    : Remove macro for interlace and other code cleanup
+
+JMVC_8_0 -> JMVC_8_1
+Date            : May 15, 2010
+Authors         : Harmonic Inc, Qualcomm
+Contribution    : Bug fix 
+Changes:
+- Bug fix for frame cropping parameters in SPS, to support e.g., 1080p encoding
+
+JMVC_7_2 -> JMVC_8_0
+Date            : Mar. 21, 2010
+Authors         : Qualcomm
+Contribution    : Bug fix
+Changes:
+- Bug fix for spatial direct mode
+
+JMVC_7_1 -> JMVC_7_2
+Date            : Mar. 01, 2010
+Authors         : Technicolor
+Contribution    : SW improvement
+Changes:
+- Support of 64-bit systems
+
+JMVC_7_0 -> JMVC_7_1
+Date            : Feb. 25, 2010
+Authors         : HHI
+Contribution    : SW improvement
+Changes:
+- Copyright header removed
+
+JMVC_6_1 -> JMVC_7_0
+Date            : Dec. 14, 2009
+Authors         : Qualcomm
+Contribution    : SW improvement
+Changes:
+- Update the software manual and re-tag
+
+
+JMVC_6_0_4 -> JMVC_6_1
+Date            : Dec. 8, 2009
+Authors         : MERL
+Contribution    : SW improvement
+Changes:
+- A bug fix for the encoder SW related to MaxVmvR in Table A-1 (level limits). 
+- Implemented a flag ('DPBConformanceCheck') in the encoder cfg file which enables/disables(1/0) the level conformance checking of the DPB size. When 'DPBConformanceCheck'is not present in the cfg file, it is set to 1 by default.
+
+JMVC_6_0_3 -> JMVC_6_0_4
+Date            : Nov. 19, 2009
+Authors         : MERL
+Contribution    : SW improvement
+Changes:
+- Bug fix for MaxDpbFrames calculation (reported by NEC)
+
+JMVC_6_0_2 -> JMVC_6_0_3
+Date            : Oct. 19, 2009
+Authors         : MERL
+Contribution    : SW improvement
+Changes:
+- Fixed the decoder SW crash issue when a ViewScalSEI msg. is not present in the bitstream.
+
+JMVC_6_0_1 -> JMVC_6_0_2
+Date            : Oct. 16, 2009
+Authors         : MERL
+Contribution    : SW improvement
+Changes:
+- Now supports the bitstream extractor (currently based upon ViewScalSei Msg).
+
+JMVC_6_0 -> JMVC_6_0_1
+Date            : Oct. 15, 2009
+Authors         : Panasonic
+Contribution    : SW improvement
+Changes:
+- Bug fix for reset of MbDataCtrl in xStartPicture()
+- Bug fix for setting AnchorPicFlag in xInitSliceHeader()
+- Various changes to fix compatibility with JMVC_5_2 with LF_INTERLACE macro turned off.
+
+
+JMVC_5_2 -> JMVC_6_0
+Date            : September 22, 2009
+Authors         : Panasonic
+Contribution    : SW improvement
+Changes:
+- Added interlaced support for MVC. New cfg options MbAff and Paff added to support Field Picture Coding, Macroblock Adaptive Frame Field coding and Picture Adaptive Frame Field coding.
+
+
+JMVC_5_1 -> JMVC_5_2
+Date            : Sep. 21, 2009
+Authors         : Qualcomm
+Contribution    : SW improvement
+Changes:
+- This version does not have interlace support and created before interlace tools are added.
+
+
+JMVC_5_1 -> JMVC_5_1_1
+Date            : Aug. 3, 2009
+Authors         : MERL
+Contribution    : SW improvement
+Changes:
+- Fixing a bug regarding max_num_ref_frames. Now it is determined as min (16, MaxDpbFrames/mvcScaleFactor) according to H.10.2.
+
+JMVC_5_0_6 -> JMVC_5_1
+Date            : July 31, 2009
+Authors         : Panasonic
+Contribution    : SW improvement
+Changes:
+- Implementation of constraint5_flag in SPS
+
+JMVC_5_0_5 -> JMVC_5_0_6 
+Date            : June 25, 2009
+Authors         : MERL
+Contribution    : SW improvement
+Changes:
+- inter_view_flag (H.7.4.1.1) is now actually being used for determining inter-view reference pictures
+
+JMVC_5_0_4 -> JMVC_5_0_5 
+Date            : June 12, 2009
+Authors         : Qualcomm
+Contribution    : SW improvement
+Changes:
+- Bug fix for idr_pic_id in the non-base views
+
+
+JMVC_5_0_3 -> JMVC_5_0_4 
+Date            : June 10, 2009
+Authors         : NTT
+Contribution    : SW improvement
+Changes:
+- Bug fix for the level constraint H.10.2 q)
+
+
+JMVC_5_0 2 -> JMVC_5_0_3
+Date            : June 10, 2009
+Authors         : MERL
+Contribution    : SW improvement
+- Bug fix for single-view (AVC-compatible) encoding/decoding
+
+
+
+JMVC_5_0 1 -> JMVC_5_0_2
+Date            : June 09, 2009
+Authors         : MERL
+Contribution    : SW improvement
+- Bug fix for decoder DPB initialization 
+(Now it correctly uses level_idc from the SUBSET_SPS to calculate the DPB size when there are multiple views in the bitstream.)
+
+
+JMVC_5_0  -> JMVC_5_0_1
+Date            : May 25, 2009
+Authors         : Qualcomm
+Contribution    : SW improvement
+- Bug fix for saptial direct mode
+- Code cleanup 
+
+JMVC_4_1_1 -> JMVC_4_2 (JMVC_5_0)
+Date            : May 18, 2009
+Authors         : MERL (software coordinators)
+Contribution    : SW improvement
+- Encoder displays an error-message when the required DPB-size cannot be supported by the determined level. 
+
+JMVC_4_1 -> JMVC_4_1_1
+Date            : May 15, 2009
+Authors         : MERL (software coordinators)
+Contribution    : SW improvement
+- Fixed a potential encoder-crash issue when using a large GOP with hierarchical-B
+- Displays an error-message when the decoder reaches the DPB limit 
+
+
+JMVC_4_0_2 -> JMVC_4_1 
+Date            : May 07, 2009
+Authors         : NTT
+Contribution    : SW improvement
+Changes:
+- Bug fix for the trailing_bits in nal_unit_header_mvc_extension()
+- Bug fix for the reserved_one_bit in nal_unit_header_mvc_extension()
+
+JMVC_4_0_1 -> JMVC_4_0_2 
+Date            : April 08, 2009
+Authors         : MERL (software coordinators)
+Contribution    : SW improvement
+Changes:
+- levelIdc calculation
+- max_num_ref_frames limit check
+- SW (partial) clean-up
+
+JMVC_4_0 -> JMVC_4_0_1 
+Date            : April 03, 2009
+Authors         : Qualcomm
+Contribution    : SW improvement
+Changes:
+- Bug fix for the RPLM (reference picture list modification) for anchor pictures
+
+JMVC_3_1 -> JMVC_3_2 (JMVC_4_0)
+Date            : Feb 19, 2009
+Authors         : TUT (Software coordinators) & USTC
+Contribution    : SW improvement
+Changes:
+- Bug fix for the trace of non_idr_flag.
+- Bug fix for the GOPSize equal to 2.
+
+JMVC_3_0_5 -> JMVC_3_1
+Date            : Feb 17, 2009
+Authors         : Harmonic Inc (Software coordinators) 
+Contribution    : SW improvement
+Changes:
+- All view components in the first AU of the MVC bitstream were coded as IDR pictures. This has been fixed and
+  now only the base-view view component is coded as IDR. The rest are coded as either P or B depending on the view
+  coding order.
+
+JMVC_3_0_4 -> JMVC_3_0_5
+Date            : Feb 3, 2009
+Authors         : MERL (Software coordinators) 
+Contribution    : SW improvement
+Changes:
+- Bug fix for view-id specification
+
+JMVC_3_0_3 -> JMVC_3_0_4
+Date            : Dec 29, 2008
+Authors         : TUT (Software coordinators) & USTC
+Contribution    : SW improvement
+Changes:
+- Bug fix for svc_extension_flag
+
+
+JMVC_3_0_2 -> JMVC_3_0_3
+Date            : Dec 4, 2008
+Authors         : TUT (Software coordinators) & USTC
+Contribution    : SW improvement
+Changes:
+- Implemented non_idr_flag
+- Minor modifications for reference picture list construction
+
+JMVC_3_0_1 -> JMVC_3_0_2
+Date            : Dec 1, 2008
+Authors         : MERL (Software coordinators) 
+Contribution    : SW improvement
+Changes:
+- Added additional parsing routine for the encoder cfg-file so that it does not crash even in the absence of specifiers related to 'num_level_values_signalled_minus1.'
+
+JMVC_3_0 -> JMVC_3_0_1
+Date            : Nov 18, 2008
+Authors         : MERL (Software coordinators) 
+Contribution    : SW improvement
+Changes:
+- um_level_values_signalled --> num_level_values_signalled_minus1 according to SPS extension corrigenda   
+- Removal of MAX_VIEWS constraint
+- Resolved an assembler crash problem caused by Decoder Trace function
+- Fixed a memory-leak problem in encoder (contribution by Kwangwoon Univ.)
+- Removal of some warning messages 
+
+JMVC_2_6 -> JMVC_3_0
+Date            : Nov 16, 2008
+Authors         : TUT (Software coordinators) & USTC
+Contribution    : fix bugs for View Scal. Info. SEI
+
+JMVC_2_5 -> JMVC_2_6
+Date            : November 10, 2008
+Authors         : TUT (Software coordinators) & USTC
+Contribution    : POC Type 2 implementation
+Changes:
+-A new configuration item is added to support this when GOPSize is equal to 1
+
+JMVC_2_4 -> JMVC_2_5
+Date            : November 10, 2008
+Authors         : TUT (Software coordinators) & USTC
+Contribution    : SEI message syntax modification according to JVT-AB204
+Changes:
+- Confirm the payload type of each MVC SEI message, make the value in the software the same as that defined in JVT-AB204.
+- Updates for parallel decoding SEI, View Scalability info. SEI and View dependency change SEI.
+
+
+JMVC_2_3 -> JMVC_2_4
+Date            : November 6, 2008
+Authors         : MERL (Software coordinators)
+Contribution    : SPS new syntax support
+Changes:
+- Added Nal_unit_type 15 (subset SPS) and its associated SE implementations according to FDAM (H.7.3.2.1.3 & H.7.3.2.1.4).
+
+
+JMVC_2_2 -> JMVC_2_3
+Date            : October 28, 2008
+Authors         : Harmonic (Software coordinators)
+Contribution    : GOP size 1 fix
+Changes:
+- Add functionality to support GOP size 1 (IPPP) in time. This is partial support
+  since only IPPPP in time and IPPPP in view will be supported. More work needs to
+  be done to support IPPPP in time and IBPBP in view.
+
+JMVC_2_1 -> JMVC_2_2
+Date            : October 22, 2008
+Authors         : TUT (Software coordinators)
+Contribution    : NALU header fix
+Changes:
+- Make the NAL unit header consistent to the current WD
+
+JMVC_2_0 -> JMVC_2_1
+Date            : October 22, 2008
+Authors         : Harmonic (Software coordinators)
+Contribution    : fix base view view_id support
+Changes:
+- Made changes to the coding parameters file to allow for views other than view_id = 0 to
+  be base view (AVC compatible)
+
+JMVC_1_2 -> JMVC_2_0
+Date            : May 31, 2008
+Authors         : TUT/Thomson/MERL (Software coordinators)
+Contribution    : fix for warnings
+
+
+JMVC_1_1 -> JMVC_1_2
+Date            : Aug. 08, 2008
+Authors         : USTC/TUT/Nokia
+Contribution    : JVT-AB025, JVT-AB026 and JVT-AB027, SEI messages
+Changes         :
+- Added decoder supports for the SEI messages (view dependency change, non-required view component, op not present)
+- Removed active view SEI
+
+JMVC_1_0 -> JMVC_1_1
+Date            : July 28, 2008
+Authors         : TUT/Thomson (Software coordinators)
+Contribution    : Software improvements
+Changes         :
+- Added VS8 solution files
+- Address some warnings during compile time, especially for Linux
+
+JMVC_1_0 (Initial version)
+Date            : May 31, 2008
+Authors         : TUT/Thomson (Software coordinators)
+Contribution    : 
+Changes         :
+- Removal of all JMVM coding tools
+- Removal of files realted to JMVM coding tools & SVC only
+- Cleaning up of directories
+- Updated software manual
+
+
+/************* Old history ***********************/
+JMVM_7_0_1 -> JMVM_7_0_2
+Date            : Mar. 20, 2008
+Auther          Huawei
+Contribution    : Bug Fixes (JVT-Z021)
+Changes:
+- Critical bug fixes for motion skip mode
+
+JMVM_7_0 -> JMVM_7_0_1
+Date            : Mar. 06, 2008
+Auther          Nokia/TUT, Thomson
+Contribution    : Software improvement
+Changes:
+- bug fix for CAVLC
+- Source files unix compatible improvement
+
+
+JMVM_6_4 -> JMVM_6_5
+Date            : Feb. 22, 2008
+Auther          Huawei
+Contribution    : Software improvement, JVT-Z021
+Changes:
+- Fine Motion Skip according to JVT-Z021
+- bug fix
+
+JMVM_6_3  -> JMVM_6_4
+Date            : Feb. 14, 2008
+Author          : MERL
+Contribution    : Software improvement, JVT-Z038, JVT-Z032
+Changes:
+- Code clean up
+- Modified Multiview Acquisition Information SEI message according to JVT-Z038
+- motion_skip_flag clarification according to JVT-Z032
+
+JMVM_6_2  -> JMVM_6_3
+Date            : Feb. 11, 2008
+Author          : Thomson
+Contribution    : Software improvement
+Changes:
+- Code clean up
+- Fix linux gcc3.4+ builds
+
+JMVM_6_1  -> JMVM_6_2
+Date            : Feb. 07, 2008
+Author          : TUT/Nokia
+Contribution    : Software improvement
+Changes:
+- Cleanup warnings and CAVLC tests for the tools in JD
+
+JMVM_6_0_1  -> JMVM_6_1
+Date            : Jan. 20, 2008
+Author          : KETI
+Contribution    : JVT-Z032 
+Changes:
+- motion_skip_flag clarification (move conditions to slice level)
+
+JMVM_6_0  -> JMVM_6_0_1
+Date            : Dec. 01, 2007
+Author          : TUT/USTC
+Contribution    : Bug fix 
+Changes:
+- Bug-fixes for multiple SPSs
+
+JMVM_5_6  -> JMVM_6_0
+Date            : Nov. 30, 2007
+Author          : MERL
+Contribution    : Software improvement, JVT-X042
+Changes:
+- Clean up MERL_VIEW macros
+- Bug-fixes as provided by Sejong Univ. regarding ICC(JVT-X042).
+
+JMVM_5_5  -> JMVM_5_6
+Date            : Nov. 26, 2007
+Author          : Thomson
+Contribution    : Software improvement
+Changes:
+- Clean up TMS related macros
+
+JMVM_5_4  -> JMVM_5_5
+Date            : Nov. 21, 2007
+Author          : LG
+Contribution    : JVT-Y042
+Changes:
+- Single loop decoding implementation
+
+JMVM_5_3  -> JMVM_5_4
+Date            : Nov. 7, 2007
+Author          : LG
+Contribution    : JVT-Y061
+Changes:
+- SPS simplification
+
+JMVM_5_2  -> JMVM_5_3
+Date            : Nov. 6, 2007
+Author          : LG
+Contribution    : JVT-Y058
+Changes:
+- Simplification of GDV calculation
+- Fix condition to send GDV
+- Send multiple GDV in case of multiple inter-view reference
+
+JMVM_5_1  -> JMVM_5_2
+Date            : Nov. 1, 2007
+Author          : Kyung Hee University
+Contribution    : JVT-Y033
+Changes:
+- Simplification B- and P-SKIP modes on illumination compensation
+
+JMVM_5_0  -> JMVM_5_1
+Date            : Oct. 31, 2007
+Author          : TUT/Nokia
+Contribution    : JVT-Y053
+Changes:
+- Add motion skip flag in the slice header
+
+JMVM_4_11 -> JMVM_5_0
+Date            : August 10, 2007
+Author          : Thomson
+Contribution    : Software improvement 
+Changes:
+- Bug fix for motion skip memory release
+
+JMVM_4_10 -> JMVM_4_11
+Date            : August 7, 2007
+Author          : Thomson
+Contribution    : Software improvement 
+Changes:
+- Bug fix for assembler compilation
+- Added MVCBitStreamAssembler makefile
+
+JMVM_4_9 -> JMVM_4_10
+Date            : August 3, 2007
+Author          : Thomson
+Contribution    : Software improvement 
+Changes:
+- Added preliminary trace file support 
+- Can support different trace files (encoder and decoder) for each view
+- Does not support views with arbitrary view ids
+
+JMVM_4_8 -> JMVM_4_9
+Date            : August 1, 2007
+Author          : Samsung
+Contribution    : Software improvement 
+Changes:
+- Improved code related to inter_view_flag
+
+JMVM_4_6 -> JMVM_4_8
+Date            : July 27, 2007
+Author          : TUT/Nokia
+Contribution    : Software improvement 
+Changes:
+- Bug fixing
+
+JMVM_4_5 -> JMVM_4_6
+Date            : July 24, 2007
+Author          : TUT/Nokia
+Contribution    : Software improvement 
+Changes:
+- Add AVC Compliant SPS for base view
+- Add multiple SPSs and PPSs for the MVC bitstream
+- Make the first sub-bistream (base view) decodable by AVC decoder
+- Remove a lot of useless code
+- Remove the Macro introduced by Nokia 
+
+JMVM_4_4 -> JMVM_4_5
+Date            : July 23, 2007
+Author          : TUT/USTC/Nokia
+Contribution: Prefix NALU implementation 
+Changes:
+- remove the the suffix NALU and introduce the prefix NALU
+
+
+JMVM_4_3 -> JMVM_4_4
+Date			: July 23, 2007
+Author		: MERL
+Contribution: JVT-W060, JVT-X074
+Changes:
+- added Multiview Scene Information SEI message
+- added Multiview Acquisition Information SEI message
+
+
+JMVM_4_2 -> JMVM_4_3
+Date	    : July 13, 2007
+Author	    : USTC/TUT/Nokia
+Contribution: JVT-X026, JVT-X027, JVT-X028
+changes:
+- add Scalable nesting SEI message before the first frame in base view
+- add Active View Info SEI message before the first frame in base view
+- add View scalability infomation SEI message before SPS/PPS of all the views
+- modify assmebler to renew View scalability infomation SEI message when do assemble
+- add a new bit stream extractor MVCBitStreamExtractorStatic
+
+
+JMVM_4_1 -> JMVM_4_2
+Date        : July 10, 2007
+Author      : University of Science and Techonology of China/Nokia
+Contribution: JVT-X058 (bug fix)
+changes:
+- bug fix of Parallel Information SEI message and software improvement for this SEI message
+
+
+JMVM_4 -> JMVM_4_1
+Date        : July 10, 2007
+Author      : LG/Thomson
+Contribution: JVT-W081 MVC motion skip mode
+changes:
+- Bug fixing for motion skip
+- Other bug fixing related to inter_view_flag
+
+JMVM_3_6_1 -> JMVM_4
+Date        : May 31, 2007
+Author      : Nokia/University of Science and Technology of China/TUT/LG
+Contribution: JVT-W080 Parallel Information SEI and software improvement
+changes:
+- add Parallel SEI message before the first frame in base view
+- modify motion estimation search range constraints
+- modify assembler to enable Parallel SEI message check
+- bug fixing 
+- software improvement 
+
+JMVM_3_6 -> JMVM_3_6_1
+Date	    : May 26, 2007
+Author	    : LG
+Contribution: Bug-fixing 
+changes:
+- replace the existing IC-related macros with JMVM_ONLY macro
+- remove all IC-related macros in CommonDefs.h
+
+JMVM_3_5 -> JMVM_3_6
+====================
+Date	      : May 24, 2007
+Author	    : LG
+Contribution: JVT-W081 MVC motion skip mode
+changes:
+- add implementation for motion skip mode 
+
+
+JMVM_3_4 -> JMVM_3_5
+Data        : May 10, 2007
+Author      : Samsung
+Contribution: JVT-W056 Inter-view prediction reference picture marking
+changes:
+- add nal_ref_idc_view in NALU header
+- modify initialization process for reference picture list for inter-view prediction picture (consider nal_ref_idc_view)
+
+JMVM_3_3 -> JMVM_3_4
+Data        : May 09, 2007
+Author      : Samsung and Kyung Hee University
+Contribution: JVT-W024Joint Proposal for MVC Deblocking
+changes: 
+-Changed the derivation of boundary strength with either block is IC compensated
+
+JMVM_3_2 -> JMVM_3_3
+Data        : May 07, 2007
+Author      : Thomson
+Contribution: JVT-W066 Ref pic list reordering for MVC
+changes: 
+-Change the equation used to derive view prediction index
+
+JMVM_3_1 -> JMVM_3_2
+Data        : May 07, 2007
+Author      : LG
+Contribution: JVT-W031 Illumination comp. info. derivation for MVC
+changes: 
+-Change the derivation of IC information for skip mode
+-Remove slice layer syntax for IC
+
+JMVM_3_0_2 -> JMVM_3_1
+Data        : May 04, 2007
+Author      : Nokia/TUT
+Contribution: JVT-W035, JVT-W040 and software improvement
+changes: 
+-Add priority_id and idr_flag in NALU header
+-Remove view_level 
+-Add NALU type 14 support for suffix(prefix) unit
+-slice level constraints (direct mode and weighted pred.)
+
+JMVM_3_0 -> JMVM_3_0_2 (bug fix tag)
+Data        : Mar. 19, 2007
+Author      : Nokia/TUT, Thomson, MERL
+Contribution: Bug-fixing  
+
+changes: 
+-Bug fix for spatial direct mode
+-encoder parameter file to read multiple inter-view ref
+
+JMVM_3_0 -> JMVM_3_0_1 (bug fix tag)
+Data        : Mar. 06, 2007
+Author      : Nokia/TUT, Thomson
+Contribution: Bug-fixing and memory reduction for software 
+
+changes: 
+-Memory reduction for the decoder: remove useless code related to FGS, MCTF and save the memory to around 1/4
+-Effective DPB allocation at the encoder 
+
+
+JMVM_2_4 -> JMVM_3_0
+Data        : Feb. 24, 2007
+Author      : Thomson, Nokia/TUT
+Contribution: Bug-fixing and software improvement
+
+changes: 
+-Bug fixing for RPLC (temporal RPLR, RPL initialization), etc. in both encoder and decoder
+-Code cleanup in decoder
+
+JMVM_2_3 -> JMVM_2_4
+Data        : Feb. 08, 2007
+Author      : Nokia/TUT
+Contribution: JVT-V043 and software improvement
+
+changes: 
+-Reference Picture List Contruction for MVC, including new RPLR (JVT-V043)
+-Minor improvement for time-first coding and JVT-V044 (Mostly done in JMVM_2_2)
+-Provide correct VC++6.0 project support (fix for JMVM_2_1)
+-Some code cleanup for software improvement.
+
+JMVM_2_2 -> JMVM_2_3
+====================
+
+Date	    : Jan 24, 2007
+Author	    : Thomson
+Contribution: JVT-V054
+
+changes:
+-Add new syntax view_id in SPS to indicate view coding order
+-Send reference list information in view coding order
+
+JMVM_2_1 -> JMVM_2_2
+====================
+
+Date	    : Jan 9, 2007
+Author	    : Thomson/Nokia
+Contribution: Software improvement
+
+changes:
+-Assembler: Introduce assember module to assemble N views to a single bitstream
+-Encoder: simplifed encoder cfg files 
+-Encoder: Auto generate RPLR/MMCO commands
+-Decoder: Simplified decoder interface
+-Decoder: Single process decoder implementation
+-Decoder: Write separate YUV files for each view
+-Decoder: Maintain single (shared) large DPB
+-BugFix:  Do not do IC and write IC flag for AVC compatible view
+
+
+JMVM_2_0 -> JMVM_2_1
+====================
+
+Date	    : Dec 15, 2006
+Author	    : MERL
+Contribution: JVT-U207 / JVT-U209(Joint Draft 1.0)
+
+changes:
+- The changes are implemented according to the revisions described in 2.2, 2.3, 2.4 and 2.5 along with the new SPS syntax (H.7.3.1) in JVT-U209 (JD 1.0).
+  More specifically,  
+  Subsection 2.2 of JD is on revising "NAL Unit Syntax"
+  Subsection 2.3 of JD is on revising "Sequence parameter set RBSP syntax"
+  Subsection 2.4 of JD is on revising "NAL unit header SVC extension syntax"
+  Subsection 2.5 of JD is on revising "Slice layer in scalable extension syntax"
+  Annex H.7.3.1 of JD is on revising "Sequence parameter set MVC extension syntax"
+- The SPS info is encoded/decoded and is actually being used when determining the reference picture in the encoder/decoder (now you could specify different spatial-refs for anchor/non-anchor frames in each view).
+- Added a project file for VC++6.0
+
+
+
+
+JMVM_1_0 -> JMVM_2_0
+====================
+
+Date	    : Nov 17, 2006
+Author	    : Sejong/Thomson
+Contribution: JVT-U052
+
+changes:
+- add implementation for illumination compensation 
+
+
+
+
