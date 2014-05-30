@@ -2078,7 +2078,7 @@ PicEncoder::xFinishPicture( RecPicBufUnit&  rcRecPicBufUnit,
 		rcSliceHeader.getSliceType  ()==P_SLICE ? 'P' : 'B',
 		rcSliceHeader.getNalUnitType()==NAL_UNIT_CODED_SLICE_IDR ? "IDR" :
 		rcSliceHeader.getNalRefIdc  ()==NAL_REF_IDC_PRIORITY_LOWEST ? "   " : "REF",
-			rcSliceHeader.getInterViewFlag() == true ? "REF_VIEW" : "       ", //JVT-W056  samsung
+			rcSliceHeader.getInterViewFlag() == true ? "REF_VIEW" : "        ", //JVT-W056  samsung
 		rcSliceHeader.getPoc(),
 		rcSliceHeader.getPicQp(),
 		dPSNR[0],
