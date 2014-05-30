@@ -153,12 +153,17 @@ SliceEncoder::encodeSlice( SliceHeader&  rcSliceHeader,
 	}
 //~JVT-W080
   //===== loop over macroblocks =====
+  std::cout << "Looping over macroblocks" << std::endl; // CM
+  std::cout << "Frame count: " << m_uiFrameCount << std::endl;
+  std::cout << "Slice type: " << m_eSliceType << std::endl;
+  int i = 0;
   for( UInt uiMbAddress = rcSliceHeader.getFirstMbInSlice(); uiMbAddress <= rcSliceHeader.getLastMbInSlice(); uiMbAddress = rcSliceHeader.getFMO()->getNextMBNr( uiMbAddress ) )
   {
     ETRACE_NEWMB( uiMbAddress );
 
     UInt          uiMbY           = uiMbAddress / uiMbInRow;
     UInt          uiMbX           = uiMbAddress % uiMbInRow;
+    std::cout << i++ << ": Macroblock location: " << uiMbX << "," << uiMbY << std::endl;
     MbDataAccess* pcMbDataAccess  = 0;
 
     RNOK( pcMbDataCtrl  ->initMb          (  pcMbDataAccess, uiMbY, uiMbX ) );
@@ -187,6 +192,10 @@ SliceEncoder::encodeSlice( SliceHeader&  rcSliceHeader,
 
     RNOK( m_pcMbCoder   ->encode          ( *pcMbDataAccess, NULL, SST_RATIO_1,
                                              ( uiMbAddress == rcSliceHeader.getLastMbInSlice() ) , true ) );
+    Mv mv_0 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv(); // Assume that the first one represents the whole macroblock?
+    Mv mv_1 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv(); // Assume that the first one represents the whole macroblock?
+    std::cout << "Macroblock vector after encoding (list 0): " << mv_0.getHor() << "," << mv_0.getVer() << std::endl;
+    std::cout << "Macroblock vector after encoding (list 1): " << mv_1.getHor() << "," << mv_1.getVer() << std::endl;
   }
 
   return Err::m_nOK;
