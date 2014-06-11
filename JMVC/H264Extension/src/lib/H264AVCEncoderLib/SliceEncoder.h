@@ -8,6 +8,7 @@
 #include "H264AVCCommonLib/ControlMngIf.h"
 #include "H264AVCCommonLib/TraceFile.h"
 #include "MbEncoder.h"
+#include "WriteMotionVectorsToFile.h"
 
 
 H264AVC_NAMESPACE_BEGIN
@@ -98,6 +99,7 @@ protected:
 	UInt** m_ppuiPdsInitialDelayMinus2L1;
 //~JVT-W080
 
+  WriteMotionVectorsToFile* writeMotionVectorsToFile;
 };
 
 

@@ -36,6 +36,7 @@ OBJS          	= \
 			$(OBJ_DIR)/ReadBitstreamFile.o \
 			$(OBJ_DIR)/ReadYuvFile.o \
 			$(OBJ_DIR)/WriteBitstreamToFile.o \
+			$(OBJ_DIR)/WriteMotionVectorsToFile.o \
 			$(OBJ_DIR)/WriteYuvToFile.o \
 
 

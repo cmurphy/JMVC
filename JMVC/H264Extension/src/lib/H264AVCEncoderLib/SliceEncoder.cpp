@@ -153,17 +153,17 @@ SliceEncoder::encodeSlice( SliceHeader&  rcSliceHeader,
 	}
 //~JVT-W080
   //===== loop over macroblocks =====
-  std::cout << "Looping over macroblocks" << std::endl; // CM
-  std::cout << "Frame count: " << m_uiFrameCount << std::endl;
-  std::cout << "Slice type: " << m_eSliceType << std::endl;
+  // CM
   int i = 0;
+  Int poc = rcSliceHeader.getPoc(FRAME);
+  WriteMotionVectorsToFile * pcWriteMotionVectorsToFile;
+  pcWriteMotionVectorsToFile->create(pcWriteMotionVectorsToFile, poc);
   for( UInt uiMbAddress = rcSliceHeader.getFirstMbInSlice(); uiMbAddress <= rcSliceHeader.getLastMbInSlice(); uiMbAddress = rcSliceHeader.getFMO()->getNextMBNr( uiMbAddress ) )
   {
     ETRACE_NEWMB( uiMbAddress );
 
     UInt          uiMbY           = uiMbAddress / uiMbInRow;
     UInt          uiMbX           = uiMbAddress % uiMbInRow;
-    std::cout << i++ << ": Macroblock location: " << uiMbX << "," << uiMbY << std::endl;
     MbDataAccess* pcMbDataAccess  = 0;
 
     RNOK( pcMbDataCtrl  ->initMb          (  pcMbDataAccess, uiMbY, uiMbX ) );
@@ -192,12 +192,105 @@ SliceEncoder::encodeSlice( SliceHeader&  rcSliceHeader,
 
     RNOK( m_pcMbCoder   ->encode          ( *pcMbDataAccess, NULL, SST_RATIO_1,
                                              ( uiMbAddress == rcSliceHeader.getLastMbInSlice() ) , true ) );
-    Mv mv_0 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv(); // Assume that the first one represents the whole macroblock?
-    Mv mv_1 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv(); // Assume that the first one represents the whole macroblock?
-    std::cout << "Macroblock vector after encoding (list 0): " << mv_0.getHor() << "," << mv_0.getVer() << std::endl;
-    std::cout << "Macroblock vector after encoding (list 1): " << mv_1.getHor() << "," << mv_1.getVer() << std::endl;
+    Mv mv_l0_16x16 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv();
+    Mv mv_l1_16x16 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv();
+    Mv mv_l0_16x8_0 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv(PART_16x8_0);
+    Mv mv_l0_16x8_1 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv(PART_16x8_1);
+    Mv mv_l1_16x8_0 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv(PART_16x8_0);
+    Mv mv_l1_16x8_1 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv(PART_16x8_1);
+    Mv mv_l0_8x16_0 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv(PART_8x16_0);
+    Mv mv_l0_8x16_1 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv(PART_8x16_1);
+    Mv mv_l1_8x16_0 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv(PART_8x16_0);
+    Mv mv_l1_8x16_1 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv(PART_8x16_1);
+    Mv mv_l0_8x8_0 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv(PART_8x8_0);
+    Mv mv_l0_8x8_1 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv(PART_8x8_1);
+    Mv mv_l0_8x8_2 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv(PART_8x8_2);
+    Mv mv_l0_8x8_3 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv(PART_8x8_3);
+    Mv mv_l1_8x8_0 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv(PART_8x8_0);
+    Mv mv_l1_8x8_1 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv(PART_8x8_1);
+    Mv mv_l1_8x8_2 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv(PART_8x8_2);
+    Mv mv_l1_8x8_3 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv(PART_8x8_3);
+    MbMode mbmode = pcMbDataAccess->getMbData().getMbMode();
+    if (mbmode == MODE_16x16) {
+      pcWriteMotionVectorsToFile->writeMotionVector(i, uiMbX, uiMbY, "16x16",
+                                                    mv_l0_16x16.getHor(),
+                                                    mv_l0_16x16.getVer(),
+                                                    mv_l1_16x16.getHor(),
+                                                    mv_l1_16x16.getVer());
+    }
+    else if (mbmode == MODE_16x8) {
+      pcWriteMotionVectorsToFile->writeMotionVector(i, uiMbX, uiMbY, "16x8",
+                                                    mv_l0_16x8_0.getHor(),
+                                                    mv_l0_16x8_0.getVer(),
+                                                    mv_l0_16x8_1.getHor(),
+                                                    mv_l0_16x8_1.getVer(),
+                                                    mv_l1_16x8_0.getHor(),
+                                                    mv_l1_16x8_0.getVer(),
+                                                    mv_l1_16x8_1.getHor(),
+                                                    mv_l1_16x8_1.getVer());
+    }
+    else if (mbmode == MODE_8x16) {
+      pcWriteMotionVectorsToFile->writeMotionVector(i, uiMbX, uiMbY, "8x16",
+                                                    mv_l0_8x16_0.getHor(),
+                                                    mv_l0_8x16_0.getVer(),
+                                                    mv_l0_8x16_1.getHor(),
+                                                    mv_l0_8x16_1.getVer(),
+                                                    mv_l1_8x16_0.getHor(),
+                                                    mv_l1_8x16_0.getVer(),
+                                                    mv_l1_8x16_1.getHor(),
+                                                    mv_l1_8x16_1.getVer());
+    }
+    else if (mbmode == MODE_8x8 || mbmode == MODE_8x8ref0) {
+      std::string mode;
+      if (mbmode == MODE_8x8) {
+        mode = "8x8";
+      } else {
+        mode = "8x8ref0";
+      }
+      pcWriteMotionVectorsToFile->writeMotionVector(i, uiMbX, uiMbY, mode,
+                                                    mv_l0_8x8_0.getHor(),
+                                                    mv_l0_8x8_0.getVer(),
+                                                    mv_l0_8x8_1.getHor(),
+                                                    mv_l0_8x8_1.getVer(),
+                                                    mv_l0_8x8_2.getHor(),
+                                                    mv_l0_8x8_2.getVer(),
+                                                    mv_l0_8x8_3.getHor(),
+                                                    mv_l0_8x8_3.getVer(),
+                                                    mv_l1_8x8_0.getHor(),
+                                                    mv_l1_8x8_0.getVer(),
+                                                    mv_l1_8x8_1.getHor(),
+                                                    mv_l1_8x8_1.getVer(),
+                                                    mv_l1_8x8_2.getHor(),
+                                                    mv_l1_8x8_2.getVer(),
+                                                    mv_l1_8x8_3.getHor(),
+                                                    mv_l1_8x8_3.getVer());
+    }
+    else if (mbmode == MODE_SKIP) {
+      pcWriteMotionVectorsToFile->writeBlankMb(i, uiMbX, uiMbY, "Skip");
+    }
+    else { // Intra-coded
+     Bool    bIntra16x16 = pcMbDataAccess->getMbData().isIntra16x16 ();
+     Bool    bIntra8x8   = pcMbDataAccess->getMbData().isIntra4x4   () &&  pcMbDataAccess->getMbData().isTransformSize8x8();
+     Bool    bIntra4x4   = pcMbDataAccess->getMbData().isIntra4x4   () && !pcMbDataAccess->getMbData().isTransformSize8x8();
+     Bool    bPCM        = pcMbDataAccess->getMbData().isPCM();
+     std::string intraMode = "Intra";
+     if( bIntra16x16 ) {
+       intraMode += "16x16";
+     }
+     if( bIntra8x8 ) {
+       intraMode += "8x8";
+     }
+     if( bIntra4x4 ) {
+       intraMode += "4x4";
+     }
+     if( bPCM ) {
+       intraMode += "PCM";
+     }
+     pcWriteMotionVectorsToFile->writeBlankMb(i, uiMbX, uiMbY, intraMode);
+    }
+    ++i;
   }
-
+  pcWriteMotionVectorsToFile->destroy();
   return Err::m_nOK;
 }
 
