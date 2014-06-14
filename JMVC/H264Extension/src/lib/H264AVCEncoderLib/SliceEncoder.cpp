@@ -158,7 +158,7 @@ SliceEncoder::encodeSlice( SliceHeader&  rcSliceHeader,
 //~JVT-W080
   //===== loop over macroblocks =====
   // CM
-  int i = 0;
+  int mbCount = 0;
   m_pcWriteMotionVectorsToFile->initSlice(rcSliceHeader.getPoc(FRAME), rcSliceHeader.getSliceType());
   for( UInt uiMbAddress = rcSliceHeader.getFirstMbInSlice(); uiMbAddress <= rcSliceHeader.getLastMbInSlice(); uiMbAddress = rcSliceHeader.getFMO()->getNextMBNr( uiMbAddress ) )
   {
@@ -194,103 +194,8 @@ SliceEncoder::encodeSlice( SliceHeader&  rcSliceHeader,
 
     RNOK( m_pcMbCoder   ->encode          ( *pcMbDataAccess, NULL, SST_RATIO_1,
                                              ( uiMbAddress == rcSliceHeader.getLastMbInSlice() ) , true ) );
-    Mv mv_l0_16x16 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv();
-    Mv mv_l1_16x16 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv();
-    Mv mv_l0_16x8_0 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv(PART_16x8_0);
-    Mv mv_l0_16x8_1 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv(PART_16x8_1);
-    Mv mv_l1_16x8_0 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv(PART_16x8_0);
-    Mv mv_l1_16x8_1 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv(PART_16x8_1);
-    Mv mv_l0_8x16_0 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv(PART_8x16_0);
-    Mv mv_l0_8x16_1 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv(PART_8x16_1);
-    Mv mv_l1_8x16_0 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv(PART_8x16_0);
-    Mv mv_l1_8x16_1 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv(PART_8x16_1);
-    Mv mv_l0_8x8_0 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv(PART_8x8_0);
-    Mv mv_l0_8x8_1 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv(PART_8x8_1);
-    Mv mv_l0_8x8_2 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv(PART_8x8_2);
-    Mv mv_l0_8x8_3 = pcMbDataAccess->getMbData().getMbMvdData(LIST_0).getMv(PART_8x8_3);
-    Mv mv_l1_8x8_0 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv(PART_8x8_0);
-    Mv mv_l1_8x8_1 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv(PART_8x8_1);
-    Mv mv_l1_8x8_2 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv(PART_8x8_2);
-    Mv mv_l1_8x8_3 = pcMbDataAccess->getMbData().getMbMvdData(LIST_1).getMv(PART_8x8_3);
-    MbMode mbmode = pcMbDataAccess->getMbData().getMbMode();
-    if (mbmode == MODE_16x16) {
-      m_pcWriteMotionVectorsToFile->writeMotionVector(i, uiMbX, uiMbY, "16x16",
-                                                      mv_l0_16x16.getHor(),
-                                                      mv_l0_16x16.getVer(),
-                                                      mv_l1_16x16.getHor(),
-                                                      mv_l1_16x16.getVer());
-    }
-    else if (mbmode == MODE_16x8) {
-      m_pcWriteMotionVectorsToFile->writeMotionVector(i, uiMbX, uiMbY, "16x8",
-                                                      mv_l0_16x8_0.getHor(),
-                                                      mv_l0_16x8_0.getVer(),
-                                                      mv_l0_16x8_1.getHor(),
-                                                      mv_l0_16x8_1.getVer(),
-                                                      mv_l1_16x8_0.getHor(),
-                                                      mv_l1_16x8_0.getVer(),
-                                                      mv_l1_16x8_1.getHor(),
-                                                      mv_l1_16x8_1.getVer());
-    }
-    else if (mbmode == MODE_8x16) {
-      m_pcWriteMotionVectorsToFile->writeMotionVector(i, uiMbX, uiMbY, "8x16",
-                                                      mv_l0_8x16_0.getHor(),
-                                                      mv_l0_8x16_0.getVer(),
-                                                      mv_l0_8x16_1.getHor(),
-                                                      mv_l0_8x16_1.getVer(),
-                                                      mv_l1_8x16_0.getHor(),
-                                                      mv_l1_8x16_0.getVer(),
-                                                      mv_l1_8x16_1.getHor(),
-                                                      mv_l1_8x16_1.getVer());
-    }
-    else if (mbmode == MODE_8x8 || mbmode == MODE_8x8ref0) {
-      std::string mode;
-      if (mbmode == MODE_8x8) {
-        mode = "8x8";
-      } else {
-        mode = "8x8ref0";
-      }
-      m_pcWriteMotionVectorsToFile->writeMotionVector(i, uiMbX, uiMbY, mode,
-                                                      mv_l0_8x8_0.getHor(),
-                                                      mv_l0_8x8_0.getVer(),
-                                                      mv_l0_8x8_1.getHor(),
-                                                      mv_l0_8x8_1.getVer(),
-                                                      mv_l0_8x8_2.getHor(),
-                                                      mv_l0_8x8_2.getVer(),
-                                                      mv_l0_8x8_3.getHor(),
-                                                      mv_l0_8x8_3.getVer(),
-                                                      mv_l1_8x8_0.getHor(),
-                                                      mv_l1_8x8_0.getVer(),
-                                                      mv_l1_8x8_1.getHor(),
-                                                      mv_l1_8x8_1.getVer(),
-                                                      mv_l1_8x8_2.getHor(),
-                                                      mv_l1_8x8_2.getVer(),
-                                                      mv_l1_8x8_3.getHor(),
-                                                      mv_l1_8x8_3.getVer());
-    }
-    else if (mbmode == MODE_SKIP) {
-      m_pcWriteMotionVectorsToFile->writeBlankMb(i, uiMbX, uiMbY, "Skip");
-    }
-    else { // Intra-coded
-      Bool    bIntra16x16 = pcMbDataAccess->getMbData().isIntra16x16 ();
-      Bool    bIntra8x8   = pcMbDataAccess->getMbData().isIntra4x4   () &&  pcMbDataAccess->getMbData().isTransformSize8x8();
-      Bool    bIntra4x4   = pcMbDataAccess->getMbData().isIntra4x4   () && !pcMbDataAccess->getMbData().isTransformSize8x8();
-      Bool    bPCM        = pcMbDataAccess->getMbData().isPCM();
-      std::string intraMode = "Intra";
-      if( bIntra16x16 ) {
-        intraMode += "16x16";
-      }
-      if( bIntra8x8 ) {
-        intraMode += "8x8";
-      }
-      if( bIntra4x4 ) {
-        intraMode += "4x4";
-      }
-      if( bPCM ) {
-        intraMode += "PCM";
-      }
-      m_pcWriteMotionVectorsToFile->writeBlankMb(i, uiMbX, uiMbY, intraMode);
-    }
-    ++i;
+
+    m_pcWriteMotionVectorsToFile->writeMotionVector(pcMbDataAccess->getMbData(), mbCount++, uiMbX, uiMbY);
   }
   return Err::m_nOK;
 }

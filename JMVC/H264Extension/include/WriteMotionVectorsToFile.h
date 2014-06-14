@@ -22,48 +22,35 @@ class WriteMotionVectorsToFile
     ErrVal uninit();
     ErrVal destroy();
     ErrVal initSlice(Int iPoc, enum SliceType cSliceType);
-    ErrVal writeMotionVector(UInt mvId,
-                             UInt mvX, UInt mvY,
-                             const std::string& mbType,
-                             Short mv_l0_hor,
-                             Short mv_l0_ver,
-                             Short mv_l1_hor,
-                             Short mv_l1_ver);
-    ErrVal writeMotionVector(UInt mvId,
-                             UInt mvX, UInt mvY,
-                             const std::string& mbType,
-                             Short mv_l0_0_hor,
-                             Short mv_l0_0_ver,
-                             Short mv_l0_1_hor,
-                             Short mv_l0_1_ver,
-                             Short mv_l1_0_hor,
-                             Short mv_l1_0_ver,
-                             Short mv_l1_1_hor,
-                             Short mv_l1_1_ver);
-    ErrVal writeMotionVector(UInt mvId,
-                             UInt mvX, UInt mvY,
-                             const std::string& mbType,
-                             Short mv_l0_0_hor,
-                             Short mv_l0_0_ver,
-                             Short mv_l0_1_hor,
-                             Short mv_l0_1_ver,
-                             Short mv_l0_2_hor,
-                             Short mv_l0_2_ver,
-                             Short mv_l0_3_hor,
-                             Short mv_l0_3_ver,
-                             Short mv_l1_0_hor,
-                             Short mv_l1_0_ver,
-                             Short mv_l1_1_hor,
-                             Short mv_l1_1_ver,
-                             Short mv_l1_2_hor,
-                             Short mv_l1_2_ver,
-                             Short mv_l1_3_hor,
-                             Short mv_l1_3_ver);
-    ErrVal writeBlankMb(UInt mvId, UInt mvX, UInt mvY, const std::string& mbType);
+    ErrVal writeMotionVector(MbData& rMacroblock, UInt uiMbId, UInt uiMbX, UInt uiMbY);
 
   private:
     ErrVal printColumnHeader();
     Char sliceToChar(SliceType type);
+    ErrVal writeFullBlockVector(UInt uiMbId,
+                                UInt uiMbX, UInt uiMbY,
+                                const std::string& mbType,
+                                Mv& mv_l0,
+                                Mv& mv_l1);
+    ErrVal writeHalfBlockVector(UInt uiMbId,
+                                UInt uiMbX, UInt uiMbY,
+                                const std::string& mbType,
+                                Mv& mv_l0_0,
+                                Mv& mv_l0_1,
+                                Mv& mv_l1_0,
+                                Mv& mv_l1_1);
+    ErrVal writeQuarterBlockVector(UInt mvId,
+                                   UInt uiMbX, UInt uiMbY,
+                                   const std::string& mbType,
+                                   Mv& mv_l0_0,
+                                   Mv& mv_l0_1,
+                                   Mv& mv_l0_2,
+                                   Mv& mv_l0_3,
+                                   Mv& mv_l1_0,
+                                   Mv& mv_l1_1,
+                                   Mv& mv_l1_2,
+                                   Mv& mv_l1_3);
+    ErrVal writeBlankMb(UInt uiMbId, UInt uiMbX, UInt uiMbY, const std::string& mbType);
 
     FILE * m_fMotionVectorFile; // Not using LargeFile since we want strings instead of binary
                                 // Not using ofstream since fstream conflicts with defined
