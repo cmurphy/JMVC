@@ -99,7 +99,7 @@ protected:
 	UInt** m_ppuiPdsInitialDelayMinus2L1;
 //~JVT-W080
 
-  WriteMotionVectorsToFile* writeMotionVectorsToFile;
+  WriteMotionVectorsToFile* m_pcWriteMotionVectorsToFile;
 };
 
 

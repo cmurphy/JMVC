@@ -8,16 +8,20 @@
 #include <cstdio>
 #include <stdlib.h>
 #include "H264AVCCommonIf.h"
+#include "H264AVCCommonLib.h"
+
+H264AVC_NAMESPACE_BEGIN
 
 class WriteMotionVectorsToFile
 {
   public:
     WriteMotionVectorsToFile();
     ~WriteMotionVectorsToFile();
-    static ErrVal create(WriteMotionVectorsToFile *& writeMotionVectorsToFile, Int picOrder);
-    ErrVal init( const std::string& rcFileName);
+    static ErrVal create(WriteMotionVectorsToFile *& writeMotionVectorsToFile );
+    ErrVal init( const std::string& rcFileName );
     ErrVal uninit();
     ErrVal destroy();
+    ErrVal initSlice(Int iPoc, enum SliceType cSliceType);
     ErrVal writeMotionVector(UInt mvId,
                              UInt mvX, UInt mvY,
                              const std::string& mbType,
@@ -58,9 +62,16 @@ class WriteMotionVectorsToFile
     ErrVal writeBlankMb(UInt mvId, UInt mvX, UInt mvY, const std::string& mbType);
 
   private:
-    FILE * motionVectorFile; // Not using LargeFile since we want strings instead of binary
-                             // Not using ofstream since fstream conflicts with defined
-                             // min() and max() macros in H264AVCCommonIf.h
+    ErrVal printColumnHeader();
+    Char sliceToChar(SliceType type);
+
+    FILE * m_fMotionVectorFile; // Not using LargeFile since we want strings instead of binary
+                                // Not using ofstream since fstream conflicts with defined
+                                // min() and max() macros in H264AVCCommonIf.h
+    Int m_iPoc; // Temp storage for current picture order count
+    SliceType m_cSliceType; // Temp storage for current slice type
 };
+
+H264AVC_NAMESPACE_END
 
 #endif

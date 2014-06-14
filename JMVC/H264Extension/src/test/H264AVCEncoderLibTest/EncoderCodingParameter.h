@@ -605,7 +605,7 @@ EncoderCodingParameter::xReadFromFile  ( std::string&    rcFilename,
 {
   std::string acTags[4];
   UInt        uiParLnCount = 0;
-  std::string cFileNameStringTemp, cInputFilename,  cInputFile, cReconFile;
+  std::string cFileNameStringTemp, cInputFilename,  cInputFile, cReconFile, cMotionFile;
   std::string cAcquisitionFile; // SEI JVT-W060
 
   Int i, j;
@@ -654,6 +654,7 @@ EncoderCodingParameter::xReadFromFile  ( std::string&    rcFilename,
 
   m_pEncoderLines[uiParLnCount++] = new EncoderConfigLineStr ("InputFile",               &cInputFile,                                           "in.yuv");
   m_pEncoderLines[uiParLnCount++] = new EncoderConfigLineStr ("ReconFile",               &cReconFile,                                           "rec.yuv");
+  m_pEncoderLines[uiParLnCount++] = new EncoderConfigLineStr ("MotionFile",              &cMotionFile,                                           "motion.mot");
   m_pEncoderLines[uiParLnCount++] = new EncoderConfigLineUInt("SourceWidth",             &m_uiFrameWidth,                                       0 );
   m_pEncoderLines[uiParLnCount++] = new EncoderConfigLineUInt("SourceHeight",            &m_uiFrameHeight,                                      0 );
   m_pEncoderLines[uiParLnCount++] = new EncoderConfigLineUInt("SymbolMode",              &m_uiSymbolMode,                                       1 );
@@ -1035,6 +1036,9 @@ EncoderCodingParameter::xReadFromFile  ( std::string&    rcFilename,
         getLayerParameters(0).setInputFilename  ( (Char*)cFileNameStringTemp.c_str() );
         xAppendStringWithNO ( cReconFile, cFileNameStringTemp, m_CurrentViewId, ".yuv");
         getLayerParameters(0).setOutputFilename ( (Char*)cFileNameStringTemp.c_str() );
+
+        xAppendStringWithNO ( cMotionFile, cFileNameStringTemp, m_CurrentViewId, ".mot");
+        getLayerParameters(0).setMotionInfoFilename ( (Char*)cFileNameStringTemp.c_str() );
 
         getLayerParameters(0).setFrameWidth     ( m_uiFrameWidth );
         getLayerParameters(0).setFrameHeight    ( m_uiFrameHeight );
